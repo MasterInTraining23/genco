@@ -42,3 +42,24 @@ List<String> convertDynamicsToString(List<dynamic> l1) {
 List<bool> convertDynamicsToBool(List<dynamic> l1) {
   return l1.map((element) => element as bool).toList();
 }
+
+AttributeValue convertToDynamoDBFormat(dynamic item) {
+  if (item is String) {
+    return AttributeValue(s: item);
+  } else if (item is int || item is double) {
+    return AttributeValue(n: item.toString());
+  } else if (item is bool) {
+    return AttributeValue(boolValue: item);
+  } else if (item == null) {
+    return AttributeValue(nullValue: true);
+  } else if (item is Map) {
+    return AttributeValue(
+        m: item.map(
+            (key, value) => MapEntry(key, convertToDynamoDBFormat(value))));
+  } else if (item is List) {
+    return AttributeValue(
+        l: item.map((element) => convertToDynamoDBFormat(element)).toList());
+  } else {
+    return AttributeValue(s: "Unsupported object: $item");
+  }
+}

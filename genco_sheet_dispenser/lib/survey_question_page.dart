@@ -112,8 +112,9 @@ class _SurveyQuestionPageState extends State<SurveyQuestionPage> {
             ? () async {
                 Map<String, dynamic> surveyInfo =
                     Map<String, dynamic>.from(pageInfo);
-                    print(pageInfo);
                 coordinationModel.addSurveyInfo(surveyInfo);
+
+                coordinationModel.completePendingDispensing();
 
                 if (isAnsweredCorrect(questionAnswer!, selectedChoices!)) {
                   Navigator.pushReplacementNamed(

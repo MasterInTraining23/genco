@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:genco_sheet_dispenser/app_config.dart';
 import 'package:genco_sheet_dispenser/auth_page.dart';
 import 'package:genco_sheet_dispenser/coordination_model.dart';
@@ -15,10 +16,15 @@ import 'package:genco_sheet_dispenser/survey_question_page.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  startMotorControlService();
+  // startMotorControlService();
   DynamoDbService.initialize();
+  // await Future.delayed(Duration(seconds: 5));
   await AppConfig.getAppConfig().startPolling();
 
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  
   runApp(
     ChangeNotifierProvider(
       create: (context) => CoordinationModel(),

@@ -3,9 +3,9 @@ import 'dart:io';
 
 Future<void> dispenseSheets(channel) async {
   const String pythonExecutable =
-      "/home/genco/workspace/genco/genco_motor_control/.venv/bin/python";
+      "/home/genco/workspace/genco_motor_control/.venv/bin/python";
   const String toggleMotorScript =
-      "/home/genco/workspace/genco/genco_sheet_dispenser/lib/toggle_motor.py";
+      "/home/genco/workspace/genco_sheet_dispenser/lib/dispense_via_toggle_motor.py";
 
   var startMotor = await Process.start(
     pythonExecutable,
@@ -14,7 +14,7 @@ Future<void> dispenseSheets(channel) async {
   );
   watchProcess(startMotor);
 
-  await Future.delayed(Duration(seconds: 6));
+  await Future.delayed(Duration(milliseconds: 1300));
 
   var stopMotor = await Process.start(
     pythonExecutable,

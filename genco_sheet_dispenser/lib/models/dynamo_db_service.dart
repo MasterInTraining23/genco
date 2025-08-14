@@ -4,6 +4,14 @@ class DynamoDbService {
   static DynamoDbService? service;
   late DynamoDB db;
 
+  DynamoDbService._() {
+    db = DynamoDB(
+        region: "",
+        credentials: AwsClientCredentials(
+          accessKey: "",
+          secretKey: ""));
+  }
+
   static void initialize() {
     service ??= DynamoDbService._();
   }

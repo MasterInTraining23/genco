@@ -22,6 +22,7 @@ dependencies:
   provider: ^6.0.0
   aws_dynamodb_api: ^2.0.0
   window_manager: ^0.2.2
+  connectivity_plus: ^6.1.1
 
 dev_dependencies:
   flutter_test:

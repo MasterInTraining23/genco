@@ -6,20 +6,6 @@ import 'package:genco_sheet_dispenser/models/dynamo_db_service.dart';
 class KioskPageInfos {
   KioskPageInfos._();
 
-  // static Future<List<Map<String, AttributeValue>>> get() async {
-  //   Map<String, AttributeValue> kioskFlow = await KioskFlows.get();
-  //   List<String> pageIdSequence =
-  //       kioskFlow["pageIdSequence"]?.ss as List<String>;
-  //   ScanOutput kioskPageInfos = await DynamoDbService.get()
-  //       .scan(tableName: "kiosk_page_infos", scanFilter: {
-  //     "id": Condition(
-  //         comparisonOperator: ComparisonOperator.$in,
-  //         attributeValueList:
-  //             pageIdSequence.map((id) => AttributeValue(s: id)).toList())
-  //   });
-  //   return kioskPageInfos.items!;
-  // }
-
   static Future<Map<String, Map<String, dynamic>>> get() async {
     ScanOutput kioskPageInfos =
         await DynamoDbService.get().scan(tableName: "kiosk_page_infos");

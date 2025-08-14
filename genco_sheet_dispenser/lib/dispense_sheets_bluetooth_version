@@ -1,0 +1,30 @@
+import 'dart:convert';
+import 'dart:io';
+
+Future<void> dispenseSheets(deviceName) async {
+  const String pythonExecutable =
+      "/home/genco/workspace/genco_motor_control/.venv/bin/python";
+  const String bluetoothDispenseScript =
+      "/home/genco/workspace/genco_sheet_dispenser/lib/dispense_via_bluetooth.py";
+  const String pwmDispenseScript = "/home/genco/workspace/genco_sheet_dispenser/lib/dispense_via_toggle_motor.py"
+
+  var dispenseProc = await Process.start(
+    'sudo',
+    [pythonExecutable, pwmDispenseScript, '$deviceName'],
+    mode: ProcessStartMode.normal,
+  );
+  watchProcess(dispenseProc);
+  await dispenseProc.exitCode;
+}
+
+void watchProcess(process) {
+  // Capture the output from the process
+  process.stdout.transform(Utf8Decoder()).listen((data) {
+    print(data.trim());
+  });
+
+  // Capture errors (if any)
+  process.stderr.transform(Utf8Decoder()).listen((data) {
+    print('Error: $data');
+  });
+}

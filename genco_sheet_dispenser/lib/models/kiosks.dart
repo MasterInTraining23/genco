@@ -20,7 +20,7 @@ class Kiosks {
   }
 
   static Future<void> successfullyDispensed(
-      {required Map<String, dynamic> user}) async {
+      {required Map<String, dynamic> kiosk}) async {
     await DynamoDbService.get().updateItem(
       key: {
         "institutionId": AttributeValue(s: denverUniversityId),
@@ -31,12 +31,12 @@ class Kiosks {
         "remainingUnscentedSheets": AttributeValueUpdate(
           action: AttributeAction.put,
           value: AttributeValue(
-              n: ((user["remainingUnscentedSheets"] ?? 0) + 1).toString()),
+              n: ((kiosk["remainingUnscentedSheets"] ?? 0) - 1).toString()),
         ),
         "remainingScentedSheets": AttributeValueUpdate(
           action: AttributeAction.put,
           value: AttributeValue(
-              n: ((user["remainingScentedSheets"] ?? 0) - 1).toString()),
+              n: ((kiosk["remainingScentedSheets"] ?? 0) - 1).toString()),
         )
       },
     );

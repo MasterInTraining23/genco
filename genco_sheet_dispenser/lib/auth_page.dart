@@ -62,7 +62,7 @@ class _AuthPageState extends State<AuthPage> {
         Navigator.pushReplacementNamed(context, refillErrorPageRoute,
             arguments: {"errorPageId": refillErrorPageId});
       } else {
-        coordinationModel.update("user", user);
+        coordinationModel.setUser(user);
         navigateToNextCoordinatedPage(context, coordinationModel);
       }
     }
@@ -87,7 +87,7 @@ class _AuthPageState extends State<AuthPage> {
         coordinationModel.getPageRenderingInfo(refillErrorPageId)["route"];
     final timeUntilRestart = pageInfo["timeUntilRestart"];
 
-renderedCountdown = renderedCountdown ??
+    renderedCountdown = renderedCountdown ??
         FlowRestartTimer(
             timeUntilRestart: timeUntilRestart,
             coordinationModel: coordinationModel);

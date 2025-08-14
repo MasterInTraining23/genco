@@ -27,26 +27,48 @@ class _SheetSelectionPageState extends State<SheetSelectionPage> {
     final coordinationModel = Provider.of<CoordinationModel>(context);
     final pageInfo = coordinationModel.getCurrentPageRenderingInfo();
     final timeUntilRestart = pageInfo["timeUntilRestart"];
+    final remainingRefillsThisPeriod =
+        coordinationModel.getUser()["remainingRefillsThisPeriod"];
+    final remainingScentedSheets =
+        coordinationModel.getKiosk()["sheetInfo"]["remainingScented"] as int;
+    final remainingUnscentedSheets =
+        coordinationModel.getKiosk()["sheetInfo"]["remainingUnscented"] as int;
+    final minDispenseAmount =
+        coordinationModel.getKiosk()["minDispenseAmount"] as int;
 
     List<Widget> children = [
-      Text('SELECT YOUR DETERGENT SHEET PREFERENCE',
-          style: Theme.of(context).textTheme.titleLarge),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-        const SizedBox(width: 20),
-        ElevatedButton(
-          onPressed: () => _selectSheet(SheetType.scented, coordinationModel),
-          child: Text('SCENTED',
-              style: getStyleOfSheetOption(
-                  context, _sheetSelection, SheetType.scented)),
-        ),
-        ElevatedButton(
-          onPressed: () => _selectSheet(SheetType.unscented, coordinationModel),
-          child: Text('UN-SCENTED',
-              style: getStyleOfSheetOption(
-                  context, _sheetSelection, SheetType.unscented)),
-        ),
-        const SizedBox(width: 20),
-      ]),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text('SELECT YOUR DETERGENT SHEET PREFERENCE',
+              style: Theme.of(context).textTheme.titleLarge),
+          Text('YOU HAVE $remainingRefillsThisPeriod REFILLS REMAINING!',
+              style: Theme.of(context).textTheme.bodySmall)
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          const SizedBox(width: 20),
+          ElevatedButton(
+            onPressed: remainingScentedSheets > minDispenseAmount
+                ? () => _selectSheet(SheetType.scented, coordinationModel)
+                : null,
+            child: Text('SCENTED',
+                style: getStyleOfSheetOption(
+                    context, _sheetSelection, SheetType.scented)),
+          ),
+          ElevatedButton(
+            onPressed: remainingUnscentedSheets > minDispenseAmount
+                ? () => _selectSheet(SheetType.unscented, coordinationModel)
+                : null,
+            child: Text('UN-SCENTED',
+                style: getStyleOfSheetOption(
+                    context, _sheetSelection, SheetType.unscented)),
+          ),
+          const SizedBox(width: 20),
+        ],
+      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

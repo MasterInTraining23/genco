@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:genco_sheet_dispenser/app_config.dart';
 import 'package:genco_sheet_dispenser/dispense_sheets.dart';
 import 'package:genco_sheet_dispenser/models/kiosk_dispense_activity.dart';
+import 'package:genco_sheet_dispenser/models/kiosks.dart';
 import 'package:genco_sheet_dispenser/models/user_dispense_activity.dart';
 import 'package:genco_sheet_dispenser/models/users.dart';
 import 'package:genco_sheet_dispenser/sheet_type.dart';
@@ -35,10 +36,19 @@ class CoordinationModel extends ChangeNotifier {
     update("flowScopedPageInfos", _getPageInfos());
     _fillPageIdsFromCurrentStage();
     update("currentPageId", _popNextPageId());
+    update("kiosk", getKiosk());
   }
 
   void resetFlow() {
     _coordinatedState = _getCoordinationState();
+  }
+
+  dynamic getKiosk() {
+    return AppConfig.getAppConfig().kiosk;
+  }
+
+  dynamic getUser() {
+    return _coordinatedState["user"];
   }
 
   dynamic _getState(String key) {
@@ -49,28 +59,41 @@ class CoordinationModel extends ChangeNotifier {
     _coordinatedState[key] = value;
   }
 
+  void setUser(dynamic user) {
+    _coordinatedState["user"] = user;
+  }
+
   Future<void> _loginAnonymousUser() async {
     update("user", await Users.get("anonymous"));
   }
 
-  Future<void> _completePendingDispensing() async {
+  Future<void> completePendingDispensing() async {
     final SheetType selectedSheetType =
         _getState("selectedSheetType") as SheetType;
     final String configName = "${selectedSheetType.name}MotorConfig";
     final int channel = _getMotorControlConfig()[configName]["channel"];
+    final String deviceName = _getMotorControlConfig()[configName]["deviceName"];
     dispenseSheets(channel);
-    Map<String, dynamic> user = _getState("user");
+    Map<String, dynamic> kiosk = getKiosk();
+    Map<String, dynamic> user = getUser();
     Users.successfullyDispensed(user: user);
     UserDispenseActivity.successfullyDispensed(
       user: user,
       sheetType: selectedSheetType,
-      surveyInfos: _getState("surveyInfos") ?? [],
+      surveyInfos: _getState("surveyInfos"),
     );
     KioskDispenseActivity.successfullyDispensed(
       user: user,
       sheetType: selectedSheetType,
     );
+    Kiosks.successfullyDispensed(kiosk: kiosk);
+    // Verify number of dispenses remaining for kiosk
+    // say that it's out of refills when both are out
   }
+
+void _addPageForNoMoreRefillsAtKiosk() {
+  
+}
 
   void _fillPageIdsFromCurrentStage() {
     int stageIndex = _getState("stageIndex");
@@ -139,7 +162,7 @@ class CoordinationModel extends ChangeNotifier {
         // This could be made more cleanly async by moving it to a separate
         // class/handler. The class can use a queue and independently pull
         // information from the shared coordination_model in order to dispense.
-        _completePendingDispensing();
+        completePendingDispensing();
         return nextPage();
       default:
         break;
@@ -152,5 +175,6 @@ class CoordinationModel extends ChangeNotifier {
   void addSurveyInfo(Map<String, dynamic> surveyInfo) {
     List<Map<String, dynamic>> infos = _getState("surveyInfos") ?? [];
     infos.add(surveyInfo);
+    update("surveyInfos", infos);
   }
 }

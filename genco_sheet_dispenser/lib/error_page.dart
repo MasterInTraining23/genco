@@ -17,8 +17,15 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final coordinationModel = Provider.of<CoordinationModel>(context);
-    final errorPageId = pageArguments["errorPageId"];
-    final pageInfo = coordinationModel.getPageRenderingInfo(errorPageId);
+    dynamic pageInfo;
+
+    if (pageArguments != null) {
+      final errorPageId = pageArguments["errorPageId"];
+      pageInfo = coordinationModel.getPageRenderingInfo(errorPageId);
+    } else {
+      pageInfo = coordinationModel.getCurrentPageRenderingInfo();
+    }
+
     final timeUntilRestart = pageInfo["timeUntilRestart"];
     final errorLabels = pageInfo["errorLabels"] as List;
     final infoLabels = pageInfo["infoLabels"] as List;

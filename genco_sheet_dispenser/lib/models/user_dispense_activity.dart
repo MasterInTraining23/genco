@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:genco_sheet_dispenser/models/convert_item.dart';
 import 'package:genco_sheet_dispenser/models/dynamo_db_service.dart';
 import 'package:genco_sheet_dispenser/models/institutions.dart';
 import 'package:genco_sheet_dispenser/sheet_type.dart';
@@ -19,10 +20,7 @@ class UserDispenseActivity {
             AttributeValue(s: DateTime.now().millisecondsSinceEpoch.toString()),
         "userId": AttributeValue(s: user["id"]),
         "sheetType": AttributeValue(s: sheetType.name),
-        "surveys": AttributeValue(
-            l: surveyInfos
-                .map((surveyInfo) => AttributeValue.fromJson(surveyInfo))
-                .toList())
+        "surveys": convertToDynamoDBFormat(surveyInfos)
       },
       tableName: "user_dispense_activity",
     );

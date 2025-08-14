@@ -3,7 +3,7 @@ import 'dart:io';
 
 Future<void> startMotorControlService() async {
   const String motorControlService =
-      "/home/genco/workspace/genco/genco_motor_control/server.sh";
+      "/home/genco/workspace/genco_motor_control/server.sh";
 
   var startMotor = await Process.start(
     motorControlService,

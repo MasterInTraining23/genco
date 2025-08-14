@@ -28,6 +28,7 @@ class AppConfig {
       _kiosk = await Kiosks.get();
       _motorControlConfig = await MotorControlConfigs.get();
     } catch (e) {
+      print("Failed to locate/fetch AppConfig data.");
       print(e);
     }
   }
