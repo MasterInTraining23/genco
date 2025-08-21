@@ -45,7 +45,7 @@ class _AuthPageState extends State<AuthPage> {
 
   void _onSubmitId(BuildContext context, CoordinationModel coordinationModel,
       String refillErrorPageRoute, String refillErrorPageId) async {
-    Map<String, dynamic>? user = await Users.get(_controller.text);
+    Map<String, dynamic>? user = await Users.get(_controller.text.toLowerCase());
 
     if (user == null) {
       setState(() {
