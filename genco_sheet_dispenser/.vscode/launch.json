@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "name": "Web (Chrome)",
+        "request": "launch",
+        "type": "dart",
+        "flutterMode": "debug",
+        "program": "lib/main.dart",
+        "args": [
+            "-dchrome",
+            "--dart-define-from-file=device-config.json"
+        ]
+    }
+  ]
+}
