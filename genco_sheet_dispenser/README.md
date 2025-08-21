@@ -22,6 +22,14 @@ samples, guidance on mobile development, and a full API reference.
 2. If code changes have been need to be applied, run `flutter build linux` from within the `genco_sheet_dispenser` directory.
 3. run `genco_sheet_dispenser/build/linux/arm64/release/bundle/genco_sheet_dispenser` to start the user interface in kiosk mode
 
+## Configuring a Raspberry Pi (temporary process) for deployment
+
+1. If there have been changes, pull the latest code from Github into `~/workspace/Github/genco`, and overwrite changed files in `~/workspace`
+2. Configure `institutionId` by changing `denverUniversityId` in `~/workspace/lib/models/institutions.dart` to the ID of the correct institution. 
+3. Configure the `kioskId` by changing `denverUniversityKioskId` to the correct kiosk ID in `~/workspace/lib/models/kiosks.dart`.
+  - Check to ensure that the kiosk with `institutionId` and `kioskId` exists in the DynamoDB `kiosks` table, otherwise you'll encounter a runtime error. If no kiosk exists in the table, create one.
+4. Build the app by running `flutter build linux`.
+
 ## DynamoDB Tables
 
 Tables described with existing attributes, and their DynamoDB data types as `name:Type`
