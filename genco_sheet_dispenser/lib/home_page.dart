@@ -27,6 +27,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                Image(image: AssetImage("assets/images/GenCo_Wordmark.png")),
                 Text(
                   "FREE ZERO WASTE\nLAUNDRY DETERGENT!",
                   textAlign: TextAlign.center,
@@ -34,7 +35,6 @@ class HomePage extends StatelessWidget {
                     fontSize: 70,
                     fontFamily: "Arial",
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 2.0,
                   ),
                 ),
                 Container(
@@ -48,7 +48,6 @@ class HomePage extends StatelessWidget {
                           fontSize: 50,
                           fontFamily: "Arial",
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
                         ),
                       ),
                       Container(
