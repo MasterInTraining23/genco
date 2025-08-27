@@ -4,6 +4,7 @@ import 'package:genco_sheet_dispenser/models/users.dart';
 import 'package:provider/provider.dart';
 import 'coordination_model.dart';
 import 'navigator.dart';
+import 'models/institutions.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -86,6 +87,17 @@ class _AuthPageState extends State<AuthPage> {
     final refillErrorPageRoute =
         coordinationModel.getPageRenderingInfo(refillErrorPageId)["route"];
     final timeUntilRestart = pageInfo["timeUntilRestart"];
+    String inputLabel = (denverUniversityId == "1")
+        ? "ENTER YOUR STUDENT ID"
+        : "ENTER YOUR EMAIL";
+
+    Map<String, String> domains = {
+      "1": "", // Denver uses student IDs
+      "2": "@williams.edu",
+      "3": "@umassd.edu",
+      "4": "@umich.edu",
+      "5": "@iu.edu"
+    };
 
     renderedCountdown = renderedCountdown ??
         FlowRestartTimer(
@@ -95,36 +107,43 @@ class _AuthPageState extends State<AuthPage> {
       body: Container(
         width: screenSize.width,
         height: screenSize.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-                'assets/images/background/generic.png'), // Set the background image
-            fit: BoxFit
-                .cover, // This will make the image cover the entire screen
-          ),
-        ),
+        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: const EdgeInsets.all(4),
-              child: TextField(
-                controller: _controller,
-                readOnly: true, // Prevent direct typing in TextField
-                decoration: InputDecoration(
-                  labelText: "ENTER YOUR STUDENT ID",
-                  labelStyle: Theme.of(context).textTheme.bodyMedium,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+              child: Row(children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    readOnly: true, // Prevent direct typing in TextField
+                    decoration: InputDecoration(
+                      labelText: inputLabel,
+                      labelStyle: Theme.of(context).textTheme.bodyMedium,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(width: 36),
+                Text(
+                  domains[denverUniversityId]!,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontFamily: 'Arial',
+                    fontSize: 52,
+                    fontWeight: FontWeight.w100,
+                  )
+                )
+              ],)
             ),
             Text(
               invalidIdErrorMsg,
