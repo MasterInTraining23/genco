@@ -4,6 +4,7 @@ import 'package:genco_sheet_dispenser/flow_delayed_proceed_timer.dart';
 import 'package:genco_sheet_dispenser/models/convert_item.dart';
 import 'package:provider/provider.dart';
 import 'coordination_model.dart';
+import 'navigator.dart';
 
 class InorrectlyAnsweredSurveyQuestionPage extends StatefulWidget {
   final dynamic pageArguments;
@@ -128,16 +129,28 @@ class _InorrectlyAnsweredSurveyQuestionPageState
           timeUntilProceed: timeUntilProceed,
           coordinationModel: coordinationModel)
     ];
+    FlowDelayedProceedTimer? _timerWidget;
+    Widget buildContent() {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 10),
+          ...children,
+        ],
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.red,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 10),
-            ...children,
-          ],
+      body: GestureDetector(
+        onTap: () {
+          setState(() {
+            _timerWidget = null;
+          });
+          navigateToNextCoordinatedPage(context, coordinationModel);
+        },
+        child: Center(
+          child: buildContent(),
         ),
       ),
     );
