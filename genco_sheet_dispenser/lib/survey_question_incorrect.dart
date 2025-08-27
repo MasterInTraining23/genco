@@ -95,11 +95,11 @@ class _InorrectlyAnsweredSurveyQuestionPageState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 20,
-                      height: 20,
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: questionAnswer![index]
-                            ? Colors.black
+                            ? Colors.green
                             : Colors.transparent,
                         shape: BoxShape.circle,
                         border: Border.all(
