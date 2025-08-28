@@ -4,7 +4,7 @@ import 'package:genco_sheet_dispenser/models/convert_item.dart';
 import 'package:genco_sheet_dispenser/models/dynamo_db_service.dart';
 import 'package:genco_sheet_dispenser/models/institutions.dart';
 
-const String denverUniversityKioskId = "1";
+const String denverUniversityKioskId = String.fromEnvironment("kioskId");
 
 class Kiosks {
   Kiosks._();
