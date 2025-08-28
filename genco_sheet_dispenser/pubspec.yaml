@@ -57,6 +57,7 @@ flutter:
     - assets/images/eco_informational/zero_waste.png
     - assets/images/survey_question/background.png
     - assets/images/survey_question/correct_answer.png
+    - assets/images/GenCo_Wordmark.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
