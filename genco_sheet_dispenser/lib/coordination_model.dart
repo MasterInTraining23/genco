@@ -136,7 +136,7 @@ void _addPageForNoMoreRefillsAtKiosk() {
     return _getCurrentFlowPageInfos()[pageId];
   }
 
-  dynamic nextPage() {
+  dynamic nextPage() async {
     String? nextPageId = _popNextPageId();
     if (nextPageId == null) {
       final int stageIndex = _getState("stageIndex");
@@ -156,7 +156,7 @@ void _addPageForNoMoreRefillsAtKiosk() {
         // Purposely choosing not to wait since downstream processes should not
         // require user info if this is an anonymous flow. The only information
         // we need is for logging and we should not block or error on failed logging.
-        _loginAnonymousUser();
+        await _loginAnonymousUser();
         return nextPage();
       case "DISPENSE":
         // This could be made more cleanly async by moving it to a separate

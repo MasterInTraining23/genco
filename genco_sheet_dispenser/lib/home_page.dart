@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
     String inputPrompt = (denverUniversityId == "1")  
     ? "INPUT\nYOUR STUDENT ID" 
     : "INPUT\nYOUR EMAIL";
+   
     Size screenSize = MediaQuery.of(context).size;
     final coordinationModel = Provider.of<CoordinationModel>(context);
 

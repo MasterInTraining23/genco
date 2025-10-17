@@ -28,13 +28,15 @@ class _SheetSelectionPageState extends State<SheetSelectionPage> {
     final pageInfo = coordinationModel.getCurrentPageRenderingInfo();
     final timeUntilRestart = pageInfo["timeUntilRestart"];
     final remainingRefillsThisPeriod =
-        coordinationModel.getUser()["remainingRefillsThisPeriod"];
+        coordinationModel.getUser()["remainingRefillsThisPeriod"] as int;
     final remainingScentedSheets =
         coordinationModel.getKiosk()["sheetInfo"]["remainingScented"] as int;
     final remainingUnscentedSheets =
         coordinationModel.getKiosk()["sheetInfo"]["remainingUnscented"] as int;
     final minDispenseAmount =
         coordinationModel.getKiosk()["minDispenseAmount"] as int;
+    final userIsSignedIn = (coordinationModel.getUser() != null) && (coordinationModel.getUser()["id"] != "anonymous");
+    final refillsMessage = userIsSignedIn ? "YOU HAVE $remainingRefillsThisPeriod REFILLS REMAINING!" : "";
 
     List<Widget> children = [
       Column(
@@ -42,7 +44,7 @@ class _SheetSelectionPageState extends State<SheetSelectionPage> {
         children: <Widget>[
           Text('SELECT YOUR DETERGENT SHEET PREFERENCE',
               style: Theme.of(context).textTheme.titleLarge),
-          Text('YOU HAVE $remainingRefillsThisPeriod REFILLS REMAINING!',
+          Text(refillsMessage,
               style: Theme.of(context).textTheme.bodySmall)
         ],
       ),

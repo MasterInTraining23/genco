@@ -4,8 +4,8 @@ import 'coordination_model.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void navigateToNextCoordinatedPage(
-    BuildContext context, CoordinationModel coordinationModel) {
-  String route = coordinationModel.nextPage()["route"];
+    BuildContext context, CoordinationModel coordinationModel) async {
+  String route = (await coordinationModel.nextPage())["route"];
   Navigator.pushReplacementNamed(
     context,
     route,
