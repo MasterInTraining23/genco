@@ -104,3 +104,7 @@ Tables described with existing attributes, and their DynamoDB data types as `nam
 * `institutionId:S`
 * `remainingRefillsThisPeriod:N`
 * `totalDispenses:N`
+
+### A note on anonymous authorization
+
+A machine can be configured to allow an anonymous user. For this to work there must be a user with the `id` "anonymous" and the `institution_id` of the corresponding institution.
