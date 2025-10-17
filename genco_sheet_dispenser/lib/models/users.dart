@@ -36,6 +36,15 @@ class Users {
 
   static Future<void> successfullyDispensed(
       {required Map<String, dynamic> user}) async {
+    
+    int newRefillsCount = user['id'] == "anonymous" 
+      ? user["remainingRefillsThisPeriod"] 
+      : user["remainingRefillsThisPeriod"] - 1;
+
+    if (newRefillsCount < 0) {
+      newRefillsCount = 0;
+    }
+
     await DynamoDbService.get().updateItem(
       key: {
         "institutionId": AttributeValue(s: denverUniversityId),
@@ -51,7 +60,7 @@ class Users {
         "remainingRefillsThisPeriod": AttributeValueUpdate(
           action: AttributeAction.put,
           value: AttributeValue(
-              n: ((user["remainingRefillsThisPeriod"] ?? 0) - 1).toString()),
+              n: newRefillsCount.toString()),
         )
       },
     );
