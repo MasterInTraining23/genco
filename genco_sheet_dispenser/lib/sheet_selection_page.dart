@@ -28,7 +28,7 @@ class _SheetSelectionPageState extends State<SheetSelectionPage> {
     final pageInfo = coordinationModel.getCurrentPageRenderingInfo();
     final timeUntilRestart = pageInfo["timeUntilRestart"];
     final remainingRefillsThisPeriod =
-        coordinationModel.getUser() != null ? coordinationModel.getUser()["remainingRefillsThisPeriod"] : 1;
+        coordinationModel.getUser()["remainingRefillsThisPeriod"] as int;
     final remainingScentedSheets =
         coordinationModel.getKiosk()["sheetInfo"]["remainingScented"] as int;
     final remainingUnscentedSheets =
