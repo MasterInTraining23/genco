@@ -113,6 +113,10 @@ class _SurveyQuestionPageState extends State<SurveyQuestionPage> {
                 Map<String, dynamic> surveyInfo =
                     Map<String, dynamic>.from(pageInfo);
                 coordinationModel.addSurveyInfo(surveyInfo);
+                coordinationModel.addSurveyAnswers({
+                  "questionAnswer": questionAnswer,
+                  "selectedChoices": selectedChoices,
+                  "isCorrect": isAnsweredCorrect(questionAnswer!, selectedChoices!)});
 
                 coordinationModel.completePendingDispensing();
 

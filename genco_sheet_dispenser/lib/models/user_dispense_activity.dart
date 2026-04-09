@@ -11,7 +11,9 @@ class UserDispenseActivity {
   static Future<void> successfullyDispensed(
       {required Map<String, dynamic> user,
       required SheetType sheetType,
-      required List<Map<String, dynamic>> surveyInfos}) async {
+      required List<Map<String, dynamic>> surveyInfos,
+      required List<Map<String, dynamic>> surveyAnswers}
+    ) async {
     await DynamoDbService.get().putItem(
       item: {
         "institutionId-userId":
@@ -20,7 +22,8 @@ class UserDispenseActivity {
             AttributeValue(s: DateTime.now().millisecondsSinceEpoch.toString()),
         "userId": AttributeValue(s: user["id"]),
         "sheetType": AttributeValue(s: sheetType.name),
-        "surveys": convertToDynamoDBFormat(surveyInfos)
+        "surveys": convertToDynamoDBFormat(surveyInfos),
+        "surveyAnswers": convertToDynamoDBFormat(surveyAnswers)
       },
       tableName: "user_dispense_activity",
     );

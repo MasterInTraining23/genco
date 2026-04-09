@@ -81,6 +81,7 @@ class CoordinationModel extends ChangeNotifier {
       user: user,
       sheetType: selectedSheetType,
       surveyInfos: _getState("surveyInfos"),
+      surveyAnswers: _getState("surveyAnswers"),
     );
     KioskDispenseActivity.successfullyDispensed(
       user: user,
@@ -176,5 +177,11 @@ void _addPageForNoMoreRefillsAtKiosk() {
     List<Map<String, dynamic>> infos = _getState("surveyInfos") ?? [];
     infos.add(surveyInfo);
     update("surveyInfos", infos);
+  }
+
+  void addSurveyAnswers(Map<String, dynamic> surveyAnswers) {
+    List<Map<String, dynamic>> answers = _getState("surveyAnswers") ?? [];
+    answers.add(surveyAnswers);
+    update("surveyAnswers", answers);
   }
 }
